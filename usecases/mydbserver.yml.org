@@ -1,0 +1,39 @@
+--- #Text outline for MariaDB server configuration
+- hosts: appserver
+  user: deep
+  sudo: yes
+  connection: ssh
+  gather_facts: yes
+  vars:
+    dbserver_pkg: mariadb-server
+    dbclient_pkg: mariadb-client
+    dbserver_fqdn: 10.0.3.101
+    dbinstalldir: /var/lib
+    dbinstancename: MyDBTest
+    dbdistribution: Debian
+    dbversion: 5.5.44
+  tasks:
+  - name: Install the MariaDB server
+    apt: pkg=mariadb-server state=latest
+  - name: Install the MariaDB Client and utilities
+    apt: pkg=mariadb-client state=latest
+  - name: start the DB service
+    service: name=mysql state=started
+    service: name=mariadb state=started
+  - pause: prompt="Please run thr mysql_secure_installation binary and then press enter to continue"
+  - name: Restart the service
+    service: name=mariadb state=restarted
+  - name: copy the remote database in order to restore
+    copy: src=files/mysqlbkup.sql dest=/var/lib/mysqlbkup.sql owner=root group=root mode=755
+  - name: create a emote database instance
+    shell: mysql -u root -pdeep create MyDBTest
+  - name: import the DB backup to live DB
+    shell: mysql -u root -pdeep MyDB < /var/lib/mysqlbkup.sql
+    register: result
+  - debug: var=result
+  - name: create a cron job to run evrynight to take backup
+    cron: name="DBbackup" minute="0" hour="0" job="mysqldump -u root -pdeep --databases MyTestDB > dbbkup.sql"
+  - name: Run a quic sql command to verify everything was created and is working
+    shell: mysql -u root -pdeep -e 'SHOW DATABASES'
+    register: sqlresult
+  - debug: var=sqlresult

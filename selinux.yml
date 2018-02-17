@@ -1,0 +1,9 @@
+--- # selinux module example
+- hosts: apacheserver
+  user: deep
+  sudo: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: change SELinux configuration to permissive
+    selinux: state=enforcing

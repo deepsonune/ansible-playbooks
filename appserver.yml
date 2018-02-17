@@ -1,0 +1,8 @@
+- hosts: appserver
+  vars: 
+    control_server: 10.0.3.139
+    web_root: /var/www/html
+  tasks:
+  - name: Install lynx on app server
+    apt: pkg=lynx state=installed update_cache=true
+

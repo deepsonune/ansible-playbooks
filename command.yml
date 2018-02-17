@@ -1,0 +1,12 @@
+--- # command module example
+- hosts: appserver
+  sudo: yes
+  user: deep
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: check for python packages
+    command: /home/deep/testing/test.sh
+    args:
+     chdir: /home/deep/testing
+

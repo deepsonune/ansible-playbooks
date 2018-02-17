@@ -1,0 +1,20 @@
+- name: InstallClientPackages
+  apt: pkg={{ item }} state=latest
+  with_items:
+  - "{{ nfsutils_pkg }}"
+  - "{{ nfslibs_pkg }}"
+  notify: StartClientServices
+- name: StartClientServices
+  service: name={{ item }} state=restarted
+  with_items:
+  - "{{ rpcbind_service }}"
+  #- "{{ nfsserver_service }}"
+  - "{{ nfslock_service }}"
+  - "{{ nfsmap_service }}i"
+  delegate_to: localhost
+- name: clientMountServerResource
+  shell: mount -t nfs c3:{{ export_path}} {{ client_path }}
+  register: result
+- name: TestServerAvailability
+  debug: var=result
+

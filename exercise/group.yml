@@ -1,0 +1,8 @@
+- hosts: appserver
+  user: deep
+  sudo: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: create a new group called newgroup
+    group: name=newgroup state=present

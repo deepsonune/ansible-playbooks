@@ -1,0 +1,15 @@
+--- #master playbook for web servers
+- hosts: apacheserver
+  sudo: yes
+  user: deep
+  connection: ssh
+  pre_tasks:
+  - name: When did the role start
+    raw: date > /home/deep/startofrole.log
+  roles:
+  - { role: redhat_apacheserver, when: "ansible_os_family == 'RedHat'" }
+  - { role: debian_apacheserver, when: "ansible_os_family == 'Debian'" }
+  post_tasks:
+  - name: When did the role end
+    raw: date > /home/deep/endofrole.log
+

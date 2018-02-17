@@ -1,0 +1,8 @@
+dbserver_pkg: mariadb-server
+dbclient_pkg: mariadb-client
+dbserver_fqdn: 10.0.3.101
+dbinstalldir: /var/lib
+dbinstancename: MyDBTest
+dbdistribution: Debian
+dbversion: 5.5.44
+

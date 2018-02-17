@@ -1,0 +1,10 @@
+--- # unarchive module example
+- hosts: apacheserver
+  sudo: yes
+  user: deep
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: unarchiving a file from .tar
+    unarchive: src=/home/deep/playbooks/test.tar.gz dest=/home/deep/exercise copy=yes
+

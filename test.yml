@@ -1,0 +1,14 @@
+--- #testing j2 template module
+- hosts: apacheserver
+  user: deep
+  connection: ssh
+  sudo: yes
+  gather_facts: yes
+  vars:
+   - userName: deep
+   - userPassword: password123
+   - connectionType: SFTP
+  tasks:
+  - name: Install the configuration file customized for the system
+    template: src=files/test.conf.j2 dest=/home/deep/test.conf owner=deep group=deep mode=750
+

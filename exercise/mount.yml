@@ -1,0 +1,9 @@
+--- #the mount module
+- hosts: appserver
+  sudo: yes
+  user: deep
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Mount filesystem device on /mnt/data
+    mount: name=/mnt/data src=/dev/xvdf1 fstype=ext3 opts=rw state=present

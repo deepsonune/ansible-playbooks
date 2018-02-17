@@ -1,0 +1,10 @@
+--- #geturl module example
+- hosts: appserver
+  sudo: yes
+  user: deep
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: making use of GetURL module
+    get_url: url=http://10.0.3.101/mytest.ini dest=/home/deep/mytest.ini mode=0440
+

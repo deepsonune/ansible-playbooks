@@ -1,0 +1,16 @@
+- hosts: apacheserver
+  sudo: yes
+  user: deep 
+  gather_facts: no
+  vars_files:
+  - conf/webdefaults.yml
+  - conf/copyrights.yml
+  tasks:
+  - name: Install apache web 
+    action: apt name=apache2 state=installed
+    notify: Restart apache2
+  - name: Querying server for lynx browse
+    action: apt name=lynx state=present
+  - handlers:
+    service: name=apache2 state=restarted
+

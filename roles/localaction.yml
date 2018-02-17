@@ -1,0 +1,11 @@
+--- #master playbook demonstrating the delegat to
+- hosts: apacheserver
+  sudo: yes
+  user: deep
+  connection: ssh
+  pre_tasks:
+  - name: ping the application server
+    local_action: command ping -c 4 c2
+  roles:
+  - apacheserver
+

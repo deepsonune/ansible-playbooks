@@ -1,0 +1,14 @@
+--- #exercise when playbook
+- hosts: appserver
+  sudo: yes
+  user: deep
+  connection: ssh
+  tasks:
+  - name: Install apache web server as per distribution type
+    command: apt -y install apache2
+    when: ansible_os_family == "Debian"
+  - name: Install httpd as per distribution type
+    command: yum -y install httpd
+    when: ansible_os_family == "RedHat"
+
+

@@ -1,0 +1,12 @@
+--- #command module exercise
+- hosts: appserver
+  user: deep
+  sudo: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: running a shell script through command
+    command: /home/deep/testing/test.sh
+    args: 
+     chdir: /home/deep/testing
+

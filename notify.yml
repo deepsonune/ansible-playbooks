@@ -1,0 +1,13 @@
+--- #exercise playbook notify
+- hosts: appserver
+  sudo: yes
+  user: deep
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Install apache web server
+    apt: pkg=apache2 state=latest
+    notify: restart apache2
+  handlers:
+  - name: restart apache2
+    action: service name=apache2 state=restarted

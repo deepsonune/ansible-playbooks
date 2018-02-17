@@ -1,0 +1,18 @@
+--- # Tag functionality example
+- hosts: apacheserver
+  user: deep
+  sudo: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+    - name: Install the telnet and lynx packages
+      apt: pkg={{ item }} state=installed
+      with_items:
+        - telnet
+        - lynx
+      tags:
+        - packages
+    - name: verify that telnet was installed
+      raw: apt list --installed | grep telnet > /home/deep/pkg.log
+      tags:
+        - verification

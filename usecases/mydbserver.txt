@@ -1,0 +1,27 @@
+--- #Text outline for MariaDB server configuration
+- Using ansile user
+- connection should be ssh
+- needs sudo privileges
+- gathering facts needs to be on
+
+- what do we need to know?
+  - package name of db server
+  - group or host of the master server
+  - directory or installing db server
+  - version of the DB
+  - distribution type of system
+
+- What needs to be done/installed
+  - mariaDB and utilities
+  - root password install
+    - wait for the DB service to be started
+      - takes place manually after the mysql-secure-installation-run
+  - install the mysql/mariaDB configuration file (if needed)
+  - copy the mysql/mariadb database bckup to the home directory
+  - import dtabases)
+  - add a cron job for nightly backups
+
+- Testing the DB
+  - run a MYSQL command and register the output as JSON format to determine succes
+
+

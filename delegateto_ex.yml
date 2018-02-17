@@ -1,0 +1,10 @@
+--- # exercise: playbook - delegate to
+- hosts: localhost
+  sudo: yes
+  connection: local
+  user: deep
+  gather_facts: no
+  tasks:
+  - name: install telnet package on localhost
+    apt: pkg=telnet state=latest
+    delegate_to: localhost

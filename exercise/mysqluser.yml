@@ -1,0 +1,12 @@
+--- #mysql module example
+- hosts: apacheserver
+  sudo: yes
+  user: deep
+  connection: ssh
+  gather_facts: no
+  tasks:
+  #- name: install python MySQL support libraries
+    #apt: pkg=MySQL-python state=latest
+  - name: Create a new user called rishi
+    mysql_user: name=rishi password=rishi priv=*.*:ALL state=present login_user=root login_password=deep
+

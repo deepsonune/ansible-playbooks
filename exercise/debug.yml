@@ -1,0 +1,14 @@
+--- # Debud module exercise
+- hosts: appserver
+  sudo: yes
+  user: deep
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Install apache web server on web server
+    apt: pkg=apache2 state=latest
+  - debug: msg="Equivalent of apt-get install apache"
+  - name: How long has the system been up?
+    shell: /usr/bin/uptime
+    register: result
+  - debug: var=result    

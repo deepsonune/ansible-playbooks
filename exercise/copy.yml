@@ -1,0 +1,10 @@
+--- # copy module exercise
+- hosts: appserver
+  user: deep
+  sudo: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: copy test4.xt from files directory to /home/deep remotely
+    copy: src=/home/deep/playbooks/files/test4.txt dest=/home/deep owner=deep group=deep mode=0640 backup=yes
+

@@ -1,0 +1,16 @@
+--- #wait for module exercise
+- hosts: appserver
+  user: deep
+  sudo: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Installing apache2 
+    action: apt name=tomcat state=latest
+  - name: waiting for port 8080 to listen
+    wait_for:
+     port: 8080
+     state: started
+  - name: verify lynx installation
+    action: apt name=lynx state=present
+

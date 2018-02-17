@@ -1,0 +1,13 @@
+--- #exercie: playbook - Run once
+- hosts: all
+  user: deep
+  sudo: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Log the startup log
+    raw: /usr/bin/uptime >> /home/deep/uptime.log
+  - name: List the /var directory and log it
+    raw: ls -al /var >> /home/deep/dir.list
+    run_once: true
+

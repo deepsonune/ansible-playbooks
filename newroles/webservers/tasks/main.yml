@@ -1,0 +1,7 @@
+- name: Installing below packages
+  apt: pkg={{ item }} state=latest
+  with_items:
+  - lynx
+  - telnet
+- name: Restarting apache web server
+  service: name=apache2 state=restarted

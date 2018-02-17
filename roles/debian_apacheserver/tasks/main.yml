@@ -1,0 +1,17 @@
+- name: install apache web server(Debian/Ubuntu)
+  apt: pkg={{ debian_apache }} state=latest
+  when: "ansible_os_family == 'Debian'"
+- shell: systemctl status apache2
+  register: result
+  until: result.stdout.find("active (running)")
+  retries: 5
+  delay: 5
+- debug: var=result
+#- name: wait for the service to start listening to port 80  
+  #wait_for:
+    #port: 80
+    #state: started
+#- debug: need to install telnet
+  #when: "ansible_os_family == 'Debian'"
+  #notify: Restart apache2
+  

@@ -1,0 +1,10 @@
+--- # The SEBoolean module
+- hosts: apacheserver
+  user: deep
+  sudo: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: enabling http anonymous writes
+    seboolean: name=httpd_anon_write state=yes persistent=yes
+

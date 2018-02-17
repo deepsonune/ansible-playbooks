@@ -1,0 +1,9 @@
+--- #  module exercise
+- hosts: appserver
+  sudo: yes
+  user: deep
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Upgrading all packages on appserver
+    action:  apt name=* state=latest

@@ -1,0 +1,40 @@
+--- # exercise: playbook from outline
+# webserver
+- hosts: all
+# user
+  user: deep
+# sudo rights
+  sudo: yes
+# connection type
+  connection: ssh
+  gather_facts: no
+  tasks:
+# date/time stamp for when the playbook start
+  - name: timestamp when playbook starts
+    raw: /bin/date >> /home/deep/startup.log
+# install apache web server and start the web service
+  - name: install apche web server
+    apt: pkg=apache2 state=latest
+  - name: start the web service  
+    service: name=apache2 state=restarted
+# verify that web service is running
+  - name: verify that web service is running
+    command: systemctl status apache2
+    register: result
+# display result on screen 
+  - debug: var=result
+# install client software telnet
+  - name: install client software telnet
+    apt: pkg=telnet state=latest
+# install client software telnet
+  - name: install client software lynx
+    apt: pkg=lynx state=latest
+# log all the packages installed on system
+  - name: log all the packages installed on the system
+    raw: apt list --installed >> /home/deep/installed.log
+# log timestamp when playbooks ends
+  - name: log timestamp when playbook ends
+    raw: /bin/date >> /home/deep/ends.yml
+  
+  
+

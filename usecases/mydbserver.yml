@@ -1,0 +1,54 @@
+--- #Text outline for MariaDB server configuration
+- hosts: controlserver
+  user: deep
+  sudo: yes
+  connection: ssh
+  gather_facts: yes
+  vars:
+    dbserver_pkg: mariadb-server
+    dbclient_pkg: mariadb-client
+    dbserver_fqdn: 10.0.3.101
+    dbinstalldir: /var/lib
+    dbinstancename: MyDBTest
+    dbdistribution: Debian
+    dbversion: 5.5.44
+  tasks:
+  - name: Install the MariaDB server and Client
+    apt: pkg={{ item }} state=latest
+    with_items:
+    - "{{ dbserver_pkg }}"
+    - "{{ dbclient_pkg }}"
+    notify:
+    - StartDBService
+    - RunSecureInstallPause
+    - RestartDBService
+    - CopyBkupFile
+    - CreateRemoteDB
+    - DisplayCreationResults
+    - RestoreRemoteDB
+    - TestDBResults
+    - ShowDBResults
+  - name: create a cron job to run evrynight to take backup
+    cron: name="DBbackup" minute="0" hour="0" job="mysqldump -u root -pdeep --databases {{ dbinstancename }} > dbbkup.sql"
+  handlers:
+  - name: StartDBService
+    service: name=mariadb state=started
+  - name: RunSecureInstallPause
+    pause: prompt="Please run sudo mysql_secure_installtion binary and press ENter - Playbook will start DB service...."
+  - name: RestartDBService
+    service: name=mariadb state=restarted
+  - name: CopyBkupFile
+    copy: src=files/mysqlbkup.sql dest={{ dbinstalldir }}/mysqlbkup.sql owner=root group=root mode=755
+  - name: CreateRemoteDB
+    shell: mysql -uroot -pdeep create {{ dbinstancename }}
+    register: result
+  - name: DisplayCreationResults
+    debug: var=result
+  - name: RestoreRemoteDB
+    shell: mysql -u root -pdeep {{ dbinstancename }} < {{ dbinstalldir }} /mysqlbkup.sql
+    register: result
+  - name: TestDBResults
+    shell: mysql -u root -pdeep -e 'SHOW DATABASES;'
+    register: mysqlresult
+  - name: ShowDBResults
+    debug: var=mysqlresult     

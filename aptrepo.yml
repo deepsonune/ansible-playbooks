@@ -1,0 +1,11 @@
+--- # APT_REPO module example
+- hosts: appserver 
+  sudo: yes
+  user: deep
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: install a dependency needed for apt_repository
+    apt: pkg=python-apt state=latest
+  - name: Add goggle repo for ubuntu
+    apt_repository: repo='deb http://dl.google.com/linux/deb/ stable main non-fee' state=present

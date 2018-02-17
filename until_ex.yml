@@ -1,0 +1,16 @@
+--- #exercise: playbook - until
+- hosts: all
+  sudo: yes
+  user: deep
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Install apache2
+    apt: pkg=apache2 state=latest
+  - name: Verify apache2
+    shell: systemctl status apache2
+    register: result
+    until: result.stdout.find("active (running)" )!= -1
+    retries: 5
+    delay: 5
+  - debug: var=result

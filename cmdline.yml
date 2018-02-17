@@ -1,0 +1,9 @@
+--- #exercise: playbooks-varib;es at commandline
+- hosts: '{{ hostname }}'
+  user: '{{ username }}'
+  connection: ssh
+  sudo: yes
+  gather_facts: no
+  tasks:
+  - name: Install requested package
+    apt: pkg={{ pkg }} state=latest

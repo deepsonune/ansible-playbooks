@@ -1,0 +1,18 @@
+- name: Install the MariaDB server and Client
+  apt: pkg={{ item }} state=latest
+  with_items:
+  - "{{ dbserver_pkg }}"
+  - "{{ dbclient_pkg }}"
+  notify:
+  - StartDBService
+  - RunSecureInstallPause
+  - RestartDBService
+  - CopyBkupFile
+  - CreateRemoteDB
+  - DisplayCreationResults
+  - RestoreRemoteDB
+  - TestDBResults
+  - ShowDBResults
+- name: create a cron job to run evrynight to take backup
+  cron: name="DBbackup" minute="0" hour="0" job="mysqldump -u root -pdeep --databases {{ dbinstancename }} > dbbkup.sql"
+

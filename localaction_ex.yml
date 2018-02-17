@@ -1,0 +1,11 @@
+--- #exercise: playbook-local action
+
+- hosts: localhost
+  user: deep
+  sudo: yes
+  connection: local
+  gather_facts: no
+  tasks:
+  - name: Install Telnet client
+    apt: pkg=telnet state=latest
+

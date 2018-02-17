@@ -1,0 +1,16 @@
+--- # DEBUG MODULE EXAMPLE
+- hosts: apacheserver
+  user: deep
+  sudo: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Install web server
+    apt: name=apache2 state=latest
+  - debug: msg="Equivaleent of sudo apt-get install apache"
+  - name: How long has the system been up?
+    shell: /usr/bin/uptime
+    register: result
+  - debug: var=result
+
+

@@ -1,0 +1,8 @@
+--- #script module example
+- hosts: appserver
+  user: deep
+  sudo: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - script: /home/deep/playbooks/system_uptime.sh creates=/home/deep/uptime.log

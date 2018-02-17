@@ -1,0 +1,3 @@
+- name: make sure lynx is installed and then log it
+  raw: apt list --installed | grep lynx > /home/deep/cmd.log
+

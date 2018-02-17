@@ -1,0 +1,11 @@
+--- # exercise: playbooks - discrete plays
+- hosts: all
+  sudo: yes
+  user: deep
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - include: plays/packages.yml
+  - name: verify installation of packages
+    raw: apt list --installed | grep telnet >> /home/deep/pkgs.log
+

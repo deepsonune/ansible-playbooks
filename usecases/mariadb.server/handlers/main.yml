@@ -1,0 +1,22 @@
+- name: StartDBService
+  service: name=mariadb state=started
+- name: RunSecureInstallPause
+  pause: prompt="Please run sudo mysql_secure_installtion binary and press ENter - Playbook will start DB service...."
+- name: RestartDBService
+  service: name=mariadb state=restarted
+- name: CopyBkupFile
+  copy: src=mysqlbkup.sql dest={{ dbinstalldir }}/mysqlbkup.sql owner=root group=root mode=755
+- name: CreateRemoteDB
+  shell: mysql -uroot -pdeep create {{ dbinstancename }}
+  register: result
+- name: DisplayCreationResults
+  debug: var=result
+- name: RestoreRemoteDB
+  shell: mysql -u root -pdeep {{ dbinstancename }} < {{ dbinstalldir }} /mysqlbkup.sql
+  register: result
+- name: TestDBResults
+  shell: mysql -u root -pdeep -e 'SHOW DATABASES;'
+  register: mysqlresult
+- name: ShowDBResults
+  debug: var=mysqlresult
+

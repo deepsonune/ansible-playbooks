@@ -1,0 +1,8 @@
+--- #fetch module
+- hosts: appserver
+  sudo: yes
+  user: deep
+  connection: ssh
+  tasks:
+  - name: Copy the remote host file to local system
+    fetch: src=/etc/hosts dest=/home/deep/prefix-{{ ansible_hostname }} flat=yes

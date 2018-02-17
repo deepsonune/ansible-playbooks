@@ -1,0 +1,10 @@
+--- #The Cron module example
+- hosts: appserver
+  user: deep
+  #sudo: yes
+  connection: ssh
+  gather_facts: no   
+  tasks:
+  - name: create a cron that list contens of a /var/log on remote system.
+    cron: name="lisr dirs" minute="0" hour="1" job="ls -al /var/log > /home/deep/cron.log"
+

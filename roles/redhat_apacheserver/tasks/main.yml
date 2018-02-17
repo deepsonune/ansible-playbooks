@@ -1,0 +1,11 @@
+- name: install apache web server(Redhat/CentOs)
+  yum: pkg={{ redhat_apache }} state=latest
+  when: "ansible_os_family == 'RedHat'"
+  notify: Restart apache2
+  ignore_errors: yes
+- name: install apache web server(Debian/Ubuntu)
+  apt: pkg={{ debian_apache }} state=latest
+  when: "ansible_os_family == 'Debian'"
+  notify: restart HTTPD
+  ignore_errors: yes
+

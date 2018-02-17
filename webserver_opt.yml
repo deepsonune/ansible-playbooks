@@ -1,0 +1,47 @@
+--- # exercise: playbook from outline
+# webserver
+- hosts: apacheserver
+# user
+  user: deep
+# sudo rights
+  sudo: yes
+# connection type
+  connection: ssh
+  gather_facts: no
+  tasks:
+# date/time stamp for when the playbook start
+  - name: timestamp when playbook starts
+    command: /bin/date
+    register: timestamp_start
+  - debug: var=timestamp_start
+# install apache web server and start the web service
+  - name: install apche web server
+    apt: pkg=apache2 state=latest
+    notify: restart apache2
+# verify that web service is runnning
+  - name: verify that  web service is running
+    command: systemctl status apache2
+    register: result
+    ignore_errors: yes
+  - debug: var=result
+# install client software telnet
+  - name: install client software telnet
+    apt: pkg=telnet state=latest
+# install client software telnet
+  - name: install client software lynx
+    apt: pkg=lynx state=latest
+# log all the packages installed on system
+  - name: log all the packages installed on the system
+    command: apt list --installed
+    register: installed_result
+  - debug: var=installed_result
+# log timestamp when playbooks ends
+  - name: log timestamp when playbook ends
+    command: /bin/date
+    register: timestamp_ends
+  - debug: var=timestamp_ends
+  handlers:
+  - name: restart apache2
+    service: name=apache2 state=restarted
+  
+

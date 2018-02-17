@@ -1,0 +1,6 @@
+--- #local action playbook
+- hosts: 127.0.0.1
+  connection: localhost
+  tasks:
+    - name: Install telnet Client
+      apt: pkg=telnet state=present

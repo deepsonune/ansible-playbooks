@@ -1,0 +1,15 @@
+--- #pause module exercise
+- hosts: appserver
+  user: deep
+  sudo: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Install apache module
+    apt: pkg=apache2 state=latest
+  - name: pausing
+    pause:
+     prompt: Press enter to continue
+  - name: Verify Lynx installation
+    apt: pkg=lynx state=latest
+

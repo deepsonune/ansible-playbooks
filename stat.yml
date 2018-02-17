@@ -1,0 +1,12 @@
+--- #stat module example
+- hosts: apacheserver
+  sudo: yes
+  connection: ssh
+  user: deep
+  gather_facts: yes54.191.91.128
+  tasks:
+  - name: Does a file/directory in a path exist or not?
+    stat: path=/home/deep/abc
+    register: p
+  - debug: msg="The path exists and is a directory"
+    when: p.stat.isdir is defined and p.stat.isdir

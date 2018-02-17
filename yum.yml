@@ -1,0 +1,10 @@
+--- # Ym module example
+- hosts: apacheserver
+  user: deep
+  sudo: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: upgrade all packages avaiable on server
+    action: apt name=* state=latest
+

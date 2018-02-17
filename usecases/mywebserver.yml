@@ -1,0 +1,14 @@
+--- # master playbook for debian.appserver Apache web server
+- hosts: apacheserver
+  sudo: yes
+  user: deep
+  connection: ssh
+  gather_facts: yes
+  pre_tasks:
+  - name: when did the role start
+    raw: date > /home/deep/startofrole.log
+  roles: 
+  - debian.apacheservers
+  post_tasks:
+  - name: when did the role end
+    raw: date > /home/deep/endofrole.log

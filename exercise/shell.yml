@@ -1,0 +1,12 @@
+--- #shell module exercise
+- hosts: appserver
+  sudo: yes
+  user: deep 
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Executing a remote command - uptime
+    shell: /usr/bin/uptime >> uptime.log
+    args:
+     chdir: logs/
+     creates: uptime.log

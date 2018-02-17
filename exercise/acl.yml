@@ -1,0 +1,12 @@
+--- # ACL module example
+- hosts: apacheserver
+  sudo: yes
+  user: deep
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Get ACL information on the /etc/test.acl.txt
+    acl: name=/etc/test.acl.txt entity=deep etype=user permissions="rw" state=present
+    register: aclinfo
+  - debug: var=aclinfo
+

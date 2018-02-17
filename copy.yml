@@ -1,0 +1,11 @@
+--- # copy module example
+- hosts: apacheserver
+  user: deep
+  sudo: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Copy from the files directory test file
+    action: copy src=files/test3.txt dest=/home/deep/test3.txt owner=deep group=deep mode=0644 backup=yes
+
+

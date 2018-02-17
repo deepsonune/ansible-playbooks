@@ -1,0 +1,8 @@
+--- # the GetURL module
+- hosts: appserver
+  user: deep
+  sudo: yes
+  connection: ssh
+  tasks:
+  - name: downlaod file from remote webserver
+    get_url: url=http://10.0.3.101/mytest.ini dest=/home/deep/mytest.ini mode=0440

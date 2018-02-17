@@ -1,0 +1,13 @@
+--- #MYSQL_DB MODULE EXAMPLE
+- hosts: apacheserver
+  user: deep
+  sudo: yes
+  connection: ssh
+  gather_facts: yes
+  tasks:
+  #- name: Install the python MySQL support libraries
+    #apt: name=MySQL-python state=latest
+  - name: create a new test DB called MyNewDB
+    #mysql_db: name=MyDBNew state=present login_user=root login_password=deep
+    mysql_db: name=MyDBNew state=dump target=/var/lib/mydbnewbk.sql login_user=root login_password=deep
+

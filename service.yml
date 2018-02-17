@@ -1,0 +1,11 @@
+--- # service module example
+- hosts: apacheserver
+  user: deep
+  sudo: yes
+  connection: ssh
+  tasks:
+  - name: Install web server
+    action: apt name=apache2 state=latest
+  - name: start the web server
+    service: name=apache2 state=started
+

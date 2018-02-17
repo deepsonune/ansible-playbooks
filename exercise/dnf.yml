@@ -1,0 +1,9 @@
+--- # dnf moduleexample
+- hosts: apacheserver
+  sudo: yes
+  user: deep
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: using DNF module to install development tools
+    dnf: name="@Development tools" state=present

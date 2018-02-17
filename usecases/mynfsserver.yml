@@ -1,0 +1,59 @@
+--- # NFS SERVER PLAYBOOK
+- hosts: appserver
+  user: deep
+  sudo: yes
+  connection: ssh
+  gather_facts: no
+  vars:
+    distribution: Debian
+    nfsutils_pkg: nfs-utils
+    nfslibs_pkg: nfs-utils-lib
+    nfsserver_service: nfs-server
+    nfslock_service: nfs-lock
+    nfsmap_service: nfs-idmap
+    rpcbind_service: rpcbind
+    export_path: /var/share
+    client_path: /mnt/remote
+  tasks:
+  - name: Install the NFS server utilites, libraries
+    apt: pkg={{ item }} state=latest
+    with_items:
+    - "{{ nfsutils_pkg}}"
+    - "{{ nfslibs_pkg }}"
+  - name: copy the export file t remote server
+    copy: src=files/exports.template dest=/etc/exports owner=root group=root mode=64
+    notify:
+    - StartServerServices
+    - InstallClientPackages
+    - CreateClientMount
+    - ClientMountServerResource
+    - TestServerAvailability
+  handlers:
+  - name: StartServerServices
+    service: name={{ item }} state=restarted
+    with_items:
+    - "{{ rpcbind_service }}"
+    - "{{ nfsserver_service }}"
+    - "{{ nfslock_service }}"
+    - "{{ nfsmap_service }}"
+  - name: InstallClientPackages
+    apt: pkg={{ item }} state=latest
+    with_items:
+    - "{{ nfsutils_pkg }}"
+    - "{{ nfslibs_pkg }}"
+    delegate_to: localhost
+    notify: StartClientServices
+  - name: StartClientServices
+    service: name={{ item }} state=restarted
+    with_items:
+    - "{{ rpcbind_service }}"
+    #- "{{ nfsserver_service }}"
+    - "{{ nfslock_service }}"
+    - "{{ nfsmap_service }}i"
+    delegate_to: localhost
+  - name: clientMountServerResource
+    shell: mount -t nfs c3:{{ export_path}} {{ client_path }}
+    register: result
+    delegate_to: localhost
+  - name: TestServerAvailability
+    debug: var=result

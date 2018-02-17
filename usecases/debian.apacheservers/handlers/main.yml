@@ -1,0 +1,9 @@
+- name: StartApache2
+  service: name={{ apache_pkg}} state=started
+- name: TestApache2
+  shell: curl {{ apache_fqdn }}
+  register: result
+- name: DisplayResult
+  debug: var=result
+
+

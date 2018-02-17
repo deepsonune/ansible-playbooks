@@ -1,0 +1,9 @@
+--- #GIT MODULE EXAMPLE
+- hosts: apacheserver
+  user: deep
+  #sudo: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Checking out a git repo on the remote server
+    git: repo=ssh://deep@10.0.3.49/home/deep/testrepo dest=/home/deep/gitrepo

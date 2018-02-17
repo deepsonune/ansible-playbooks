@@ -1,0 +1,59 @@
+--- # NFS SERVER PLAYBOOK
+- hosts: appserver
+  user: deep
+  sudo: yes
+  connection: ssh
+  gather_facts: no
+  #vars:
+    #distribution: Debian
+    #nfsutils_pkg: nfs-utils
+    #nfslibs_pkg: nfs-utils-lib
+    #nfsserver_service: nfs-server
+    #nfslock_service: nfs-lock
+    #nfsmap_service: nfs-idmap
+    #rpcbind_service: rpcbind
+    #export_path: /var/share
+  tasks:
+  - name: Install the NFS server and utilites
+    apt: pkg=nfs-utils state=latest
+  - name: Install the NFS server libraries
+    apt: pkg=nfs-utils-lib state=latest
+  - name: copy the export file t remote server
+    copy: src=files/exports.template dest=/etc/exports owner=root group=root mode=64
+  - name: start RPC bind service
+    service: name=rpcbind state=started
+  - name: start the NFS server service
+    service: name=nfs-server state=started
+  - name: start the file lock service
+    service: name=nfs-lock state=started
+  - name: start the NFS map service
+    service: name=nfs-idmap state=started
+  - name: Install the NFS client and utilites
+    apt: pkg=nfs-utils state=latest
+    delegte_to: localhost
+  - name: Install NFS client libraries
+    apt: pkg=nfs-utils-lib state=latest
+    delegate_to: localhost
+  - name: start RPC bind service
+    service: name=rpcbind state=started
+    delegate_to: localhost
+  - name: start the NFS server service
+    service: name=nfs-server state=started
+    delegate_to: localhost
+  - name: start the file lock service
+    service: name=nfs-lock state=started
+    delegate_to: localhost
+  - name: start the NFS map service
+    service: name=nfs-idmap state=started
+    deleagte_to: localhost
+  - name: create client mount directory
+    file: path=/mnt/remote state=directory mode=755
+    delegate_to: localhost
+  - name: mounr the filesyatem on the client from the NFS server
+    #shell: mount -t nfs c3:/var/share /mnt/remote
+    mount: name=/mnt/remote src=/var/share fstype=nfs state=present
+    #register: result
+    delegate_to: localhost
+  #- name: show the client mount result
+    #debug: var=result
+

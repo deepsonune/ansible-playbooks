@@ -1,0 +1,9 @@
+--- # The SELinux module
+- hosts: apacheserver
+  sudo: yes
+  user: deep
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: change selinux configuration to permissive
+    selinux: policy=targeted state=permissive

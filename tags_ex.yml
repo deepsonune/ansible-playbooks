@@ -1,0 +1,18 @@
+--- #exercise playbook -tags
+- hosts: all
+  user: deep
+  sudo: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Install telnet and lynx packages
+    apt: pkg={{ item }} state=latest
+    with_items:
+    - telnet
+    - lynx
+    tags:
+    - packages
+  - name: verify that telnet is installed
+    raw: apt list --installed | grep telnet > /home/deep/pkg.log
+    tags:
+    - logging

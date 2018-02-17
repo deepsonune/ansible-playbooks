@@ -1,0 +1,9 @@
+--- #the user module
+- hosts: appserver
+  sudo: yes
+  user: deep
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Add new user
+    user: name=tst comment="tst user" shell=/bin/bash groups=deep append=yes

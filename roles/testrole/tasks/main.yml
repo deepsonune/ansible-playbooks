@@ -1,0 +1,20 @@
+- name: install apache web server
+  apt: pkg=apache2 state=latest
+  notify: restart apache2
+- name: Add a list of software
+  apt: pkg={{ item }} state=latest
+  with_items:
+  - telnet
+  - lynx
+- name: verify that the web ervice is running
+  command: service apache2 status
+  register: result
+  ignore_errors: yes
+- debug: var=result
+- name:  log all the packages install on the system
+  command: apt list --installed
+  register: installed_result
+- debug: var=installed_result
+
+
+

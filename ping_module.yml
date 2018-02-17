@@ -1,0 +1,9 @@
+--- #ping module example
+- hosts: all
+  user: deep
+  sudo: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Ping all the  hosts
+    ping:

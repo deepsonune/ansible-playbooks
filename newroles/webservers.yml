@@ -1,0 +1,10 @@
+# creating master playbook for webservers
+- hosts: apacheserver
+  sudo: yes
+  user: deep
+  connection: ssh
+  gather_facts: yes
+  roles:
+  - { role: webservers, when: 'ansible_os_family == "Debian"' }
+
+

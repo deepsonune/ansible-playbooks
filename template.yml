@@ -1,0 +1,13 @@
+--- #making use of Jinja2 template
+- hosts: apacheserver:appserver
+  sudo: yes
+  user: deep
+  connection: ssh
+  gather_facts: yes
+  vars:
+  - userName: deep
+  - userPassword: password123
+  - connectionType: SFTP
+  tasks:
+  - name: Install the configuration file customized for the system
+    template: src=test.conf.j2 dest=/home/deep/test.conf owner=deep group=deep mode=750

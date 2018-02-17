@@ -1,0 +1,12 @@
+--- # delegate to function demo
+- hosts: apacheserver
+  user: deep
+  sudo: yes
+  connection: ssh
+  tasks:
+    - name: Run a remote ping on the application server
+      command: ping -c 4 c2 > /home/deep/playbooks/ping.out
+      delegate_to: localhost
+    - name: Install a package
+      apt: pkg=lynx state=latest
+      

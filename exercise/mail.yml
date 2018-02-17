@@ -1,0 +1,15 @@
+--- # mail module
+- hosts: appserver
+  user: deep
+  sudo: yes
+  connection: ssh
+  gather_facts: yes
+  tasks:
+  - name: ssending a mail to the user
+    mail: 
+      host=localhost
+      port=25
+      to='deep'
+      subject='our host finished deployment'
+      body='system called {{ ansible_hostname }} has been deployed successfully'      
+      

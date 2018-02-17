@@ -1,0 +1,18 @@
+--- # exercise playbook: promp
+- hosts: all
+  user: deep
+  sudo: su
+  connection: ssh
+  gather_facts: no
+  vars:
+  - playbook_version: 0.0.1b
+  vars_prompt:
+  - name: pkgtoinstall
+    prompt: Please enter package to be installed
+    default: telnet
+    private: no
+  tasks:
+  - name: Install requested package
+    apt: name={{ pkgtoinstall }} state=latest
+
+

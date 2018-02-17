@@ -1,0 +1,33 @@
+- Build an Apache web server
+- Deploy webserver with ansible user
+- Ansible user needs sudo
+- connection type is ssh rather than paramiko
+- leave gathering of facts on
+
+- Info needed
+  - apache web server package
+  - distribution running on
+  - apache version
+  - need the web server directory
+  - what is the site name
+
+- What needs to be done
+  - install apache web service
+  - create a web server directory
+  - web server directory has the proper ownership
+  - configuration of apache
+    - copy the httpd configuration file
+    - set up the vhost directory
+    - add any ssl keys if needed
+  - copy the site code to new directory
+  - start the apache service
+  - add/enable any modules needed
+    - mysql/mariaDB
+    - ssl
+    - mode/rewrite  
+  - restart the apache service(or move start service here)
+
+- Test
+  - using lynx or telnet, test the web service is running
+    - wait for port 80 to be listening
+  - register output for the service status as JSON upon completion of playbook   

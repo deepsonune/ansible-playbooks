@@ -1,0 +1,37 @@
+--- # Build an Apache web server
+- hosts: appserver
+  sudo: yes
+  user: deep
+  connection: ssh
+  gather_facts: yes
+  vars:
+   apache_pkg: apache2
+   distribution: "{{ ansible_os_family }}"
+   apache_version: 2.4
+   apache_dir: /var/www/sample
+   apache_fqdn: 10.0.3.49
+  tasks:
+  - name: Install web server package
+    apt: pkg={{apache_pkg}} state=latest
+  - name: create the web server directory
+    file: path={{ apache_dir }} state=directory mode=644
+  - name: copy the apache configuration file to remote host
+    copy: src=files/httpd.conf.template dest=/etc/apache2/apache2.conf group=root mode=644
+  - name: create the VHOST.D directory on the remote host
+    file: path=/etc/apache2/vhost.d state=directory mode=644
+  - name: copy and untr the source for the site
+    unarchive: src=files/sitecode.tar.gz dest={{ apache_dir }}
+  - name: copy the default vhost configuration file
+    copy: src=files/default.conf.template dest=/etc/apache2/vhost.d/default.conf owner=root group=root mode=644
+    notify:
+    - StartApache2
+    - TestApache2
+    - DisplayResult
+  handlers:
+  - name: StartApache2
+    service: name={{ apache_pkg}} state=started
+  - name: TestApache2
+    shell: curl {{ apache_fqdn }}
+    register: result
+  - name: DisplayResult
+    debug: var=result

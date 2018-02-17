@@ -1,0 +1,10 @@
+--- # USER MODULE EXAMPLE
+- hosts: apacheserver
+  user: deep
+  sudo: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Add the user called testapahe to the apache client group
+    #user: name=testapache comment="Test Apache user" group=deep
+    user: name=testapache state=absent remove=yes

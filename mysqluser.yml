@@ -1,0 +1,9 @@
+--- #MySQL user module
+- hosts: apacheserver
+  sudo: yes
+  user: deep
+  connection: ssh
+  gather_facts: yes
+  tasks:
+  - name: create a new user called bob and give him all access
+    mysql_user: name=bob password=bob priv=*.*:ALL state=present login_user=root login_password=deep
